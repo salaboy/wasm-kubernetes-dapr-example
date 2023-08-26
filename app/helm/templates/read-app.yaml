@@ -1,0 +1,34 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: read-app
+spec:
+  template:
+    metadata:
+      annotations:  
+        dapr.io/app-id: read-app
+        dapr.io/app-port: "8080"
+        dapr.io/enabled: "true" 
+        dapr.io/metrics-port: "9092"
+        autoscaling.knative.dev/min-scale: "{{ .Values.minScale }}"
+{{ if .Values.inVcluster }}   
+        dapr.io/disable-builtin-k8s-secret-store: "true"     
+{{- end}}
+    spec:
+      containerConcurrency: 0
+      containers:
+        - image: docker.io/salaboy/read-values-29641880cfce629a7bb375adac757e79@sha256:905e399701bb5775ff5cb643c7cd8a16fdc1f4a16ab355f6aa04563092515ed8
+          name: user-container
+          env: 
+          - name: STATESTORE_NAME
+            value: statestore
+          - name: TENANT_ID
+            value: {{ .Release.Name }}  
+          livenessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
