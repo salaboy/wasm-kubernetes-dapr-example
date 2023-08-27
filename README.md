@@ -24,3 +24,16 @@ Then install tools and the sample app:
 ```
 ./install.sh
 ```
+
+The install scripts installs Istio, Knative Serving and Dapr. Then it install Redis using a Helm Chart and a sample application composed by 3 backend services and one frontend. 
+
+![architecture](imgs/architecture.png)
+
+Once all the Pods are up and ready you can access the application by pointing your browser to [http://frontend-app.default.127.0.0.1.sslip.io](http://frontend-app.default.127.0.0.1.sslip.io)
+
+You should see this app: 
+
+![app](imgs/app.png)
+
+
+
