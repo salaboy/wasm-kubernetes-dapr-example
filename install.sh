@@ -112,7 +112,7 @@ helm upgrade --install dapr dapr/dapr \
 --wait
 
 # Install Redis
-helm upgrade --install conference-redis oci://registry-1.docker.io/bitnamicharts/redis --version 17.11.3 --set "architecture=standalone"
+helm upgrade --install redis oci://registry-1.docker.io/bitnamicharts/redis --version 17.11.3 --set "architecture=standalone"
 
 ## Install app
 helm install app oci://docker.io/salaboy/dapr-example-app --version v1.0.0
